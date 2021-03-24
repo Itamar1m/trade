@@ -39,8 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'daily_tracker',
     'accounts',
+    'charts',
     'crispy_forms',
-    # 'crispy_forms_materialize',
     'materializecssform',
 ]
 
@@ -91,7 +91,7 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'trade_tracks',
+        'NAME': 'trade_tracks2',
 
         'USER': 'postgres',
 

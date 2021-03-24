@@ -28,15 +28,13 @@ def create_table(request):
             closing_price = form.cleaned_data['closing_price']
 
             option_list=[volume,high,low,open_price,closing_price]
-            name_list=['volume','high_of_day','low_of_day','open_price','closing_price']
             string_list=['Volume','High of day','Low of day','Open price','Closing price']
 
             table = UserCustomTable.objects.create(name=name,profile=request.user)
             for i in range(len(option_list)):
                 if option_list[i] == True:
-                    list_name = name_list[i]
                     column = string_list[i]
-                    field = InfoField.objects.get_or_create(name=column,list_name=list_name)[0]
+                    field = InfoField.objects.get_or_create(name=column)[0]
                     table.infos.add(field)
 
             # table.infos.add(*form.cleaned_data['columns'])
@@ -48,77 +46,60 @@ def create_table(request):
 
 def view_table(request,pk):
     if request.method =='GET':
-        table = UserCustomTable.objects.get(pk=pk)
-        # try:
-        #     field_data = table.field_datas.all()
-        # except:
-        #     pass   
         form = RowAdditionForm()
-        infos = table.infos.all()
-        field_list = []
-        l=['volume']
-        
-        for i in range(len(infos)):
-            x=infos[i].list_name
-            l.append(x)
-        print(l)  
+        table = UserCustomTable.objects.get(pk=pk)
+        print(table.field_datas.all())
 
-        #     attrs=dir(field_data[0])
-        #     item_list=[]
-        #     for item in attrs:
-        #         if item in columns:
-        #             item_list.append(str(item))
-
-        #     field_list=[]        
-        #     for field in field_data:
-        #         for attr in dir(field):
-        #             if attr in columns:
-        #                 attr=getattr(field,attr)
-        #                 field_list.append(attr)
-
-        #     print(item_list)            
-        # except:
-        #     pass
-        # if not field_list:
-        #     field_list=''    
-
-        context = {
-        'table':table,
-        'form':form,
-        'l':l,
-        'infos':infos,
-        
-        }
-    
-
-        return render(request,'view_table.html',context)
-
-
+        return render(request,'view_table.html',{'form':form,'table':table})
 
     if request.method == 'POST':
         form = RowAdditionForm(request.POST)
-      
+        
         if form.is_valid():
             date = form.cleaned_data['date']
-            ticker = form.cleaned_data['ticker'].lower()     
+            ticker = form.cleaned_data['ticker']   
 
             api_key ='aebf9561aa30efca56f5da349ed48d74'
 
-            symbols = ticker
+            symbols = ticker.lower()
             date_from = date
             date_to = date
 
             api_result = requests.get(f'http://api.marketstack.com/v1/eod?access_key={api_key}&symbols={symbols}&date_from={date_from}&date_to={date_to}')
             data = api_result.json()
-            stock=Stock.objects.get_or_create(symbol=symbols)[0]
-            field_data =FieldData.objects.get_or_create(stock=stock,open_price=data['data'][0]['open'],closing_price=data['data'][0]['close'],low_of_day= data['data'][0]['low'],volume=data['data'][0]['volume'],high_of_day= data['data'][0]['high'],datetime=date_from)[0]
-            table = UserCustomTable.objects.get(pk=pk)
-            table.field_datas.add(field_data)
-            
-           
+            print (data)
 
+            stock = Stock.objects.get_or_create(symbol = symbols,full_name = 'Stock_name')[0]
+            date =DateObject.objects.get_or_create(date=date_from)[0]
+            low = InfoField.objects.get_or_create(name = 'Low of day')[0]
+            volume = InfoField.objects.get_or_create(name ='Volume')[0]
+            high = InfoField.objects.get_or_create(name ='High of day')[0]
+            opening_price = InfoField.objects.get_or_create(name ='Open price')[0]
+            close = InfoField.objects.get_or_create(name ='Closing price')[0]
+           
+            field_data_low = FieldData.objects.get_or_create(info = low, amount = data['data'][0]['low'],date=date,stock=stock)[0]
+            field_data_volume = FieldData.objects.get_or_create(info = volume, amount = data['data'][0]['volume'],date=date,stock=stock)[0]
+            field_data_high = FieldData.objects.get_or_create(info = high, amount = data['data'][0]['high'],date=date,stock=stock)[0]
+            field_data_close = FieldData.objects.get_or_create(info = close, amount = data['data'][0]['close'],date=date,stock=stock)[0]
+            field_data_open_price = FieldData.objects.get_or_create(info = opening_price, amount = data['data'][0]['open'],date=date,stock=stock)[0]
+           
+            low.field_datas.add(field_data_low)
+            volume.field_datas.add(field_data_volume)
+            high.field_datas.add(field_data_high)
+            opening_price.field_datas.add(field_data_open_price)
+            close.field_datas.add(field_data_close)
+
+            table = UserCustomTable.objects.get(pk=pk)
+            user_custom_table_stocks=UserCustomTableStocks.objects.get_or_create(date=date,stock=stock,user_custom_table=table)
+
+            table.stocks.add(stock)
+
+            table.infos.add(low,volume,high,opening_price,close)
+           
+            table.field_datas.add(field_data_low,field_data_volume,field_data_high,field_data_close,field_data_open_price)
+
+           
             return redirect('view-table',table.pk)
-   
 
 
 

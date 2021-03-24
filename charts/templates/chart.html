@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% include 'navbar.html' %}
+{% load materializecss %}
+{% load static %}
+{% block title %}
+Table Creation
+{% endblock %}
+
+{% block content %}
+
+<div class="tradingview-widget-container">
+    <div id="tradingview_73099"></div>
+    <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/symbols/NASDAQ-AAPL/" rel="noopener" target="_blank"><span class="blue-text">AAPL Chart</span></a> by TradingView</div>
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script type="text/javascript">
+    new TradingView.widget(
+    {
+    "width": 780,
+    "height": 510,
+    "symbol": "NASDAQ:AAPL",
+    "interval": "D",
+    "timezone": "Etc/UTC",
+    "theme": "light",
+    "style": "1",
+    "locale": "en",
+    "toolbar_bg": "#f1f3f6",
+    "enable_publishing": false,
+    "hide_side_toolbar": false,
+    "allow_symbol_change": true,
+    "details": true,
+    "show_popup_button": true,
+    "popup_width": "1000",
+    "popup_height": "650",
+    "container_id": "tradingview_73099"
+  }
+    );
+    </script>
+  </div>
+
+{% endblock %}

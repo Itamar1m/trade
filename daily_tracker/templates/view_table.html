@@ -3,6 +3,7 @@
 {% load static %}
 {% block title %}{{table.name}} {% endblock %}
 {% block content %}
+{% load custom_tags %}
 
 {{table.name}}
 <table style="margin-left: 3%;width: 70%;" class=" responsive-table striped">
@@ -19,31 +20,28 @@
         </th>
         {% endfor %}
     </tr>
-    {% for item in table.field_datas.all %}
+    {% for row in table.row.all %}
     <tr>
         <td style="display: flex;justify-content: center;">
 
-            {{item.stock.symbol.upper }}
+            {{row.stock}}
+
+        </td>
         <td>
-            
-            {{item.datetime}}
+            {{row.date.date}}
         </td>
-         {% if item.volume not in l %}
-        <td>        
-             {{item.volume}}
+        {% for column in table.infos.all %}
+        <td>
+            {{row|this_better_work:column}}
         </td>
-        {% endif %}
-    
-        <td>        
-
-        </td>
-        
-
-
-
         {% endfor %}
-        
-    
+        {% endfor %}
+
+
+
+
+
+
     <tr>
         <form action="" method="POST">
             {% csrf_token %}
