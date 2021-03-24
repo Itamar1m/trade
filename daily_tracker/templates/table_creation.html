@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% include 'navbar.html' %}
+{% load materializecss %}
+{% load static %}
+{% block title %}
+Table Creation
+{% endblock %}
+
+{% block content %}
+
+<form action=""method="POST">
+    {% csrf_token %}
+    <div style="margin:auto;width: 30%;">
+        Table Name:
+        {{form|materializecss}}
+        <button class=btn>Submit</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{%extends 'base.html'%}
+{% load crispy_forms_tags %}
+{%load static%}
+{%block title%} Signup{%endblock%}
+{%block content%}
+
+<form action="" method="POST">
+  {% csrf_token %}
+
+  <div class="sign_up_title">
+    <h5>Sign up</h5>
+  </div>
+
+  <div class="sign_up_form">
+    {{sign_up_form}}
+    <button class="waves-effect waves-teal btn ">Sign Up</button>
+  </div>
+
+</form>
+
+{%endblock%}

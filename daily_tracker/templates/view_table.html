@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %}{{table.name}} {% endblock %}
+{% block content %}
+
+{{table.name}}
+<table style="margin-left: 3%;width: 70%;" class=" responsive-table striped">
+    <tr>
+        <th style="display: flex;justify-content: center;">
+            Ticker
+        </th>
+        <th>
+            Date
+        </th>
+        {% for column in table.infos.all %}
+        <th style="font-size: 12px; width: 10%;">
+            {{column.name}}
+        </th>
+        {% endfor %}
+    </tr>
+    {% for item in table.field_datas.all %}
+    <tr>
+        <td style="display: flex;justify-content: center;">
+
+            {{item.stock.symbol.upper }}
+        <td>
+            
+            {{item.datetime}}
+        </td>
+         {% if item.volume not in l %}
+        <td>        
+             {{item.volume}}
+        </td>
+        {% endif %}
+    
+        <td>        
+
+        </td>
+        
+
+
+
+        {% endfor %}
+        
+    
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <td style="width :5%">{{form.ticker}} </td>
+            <td style="width :.1%">{{form.date}}</td>
+            <td><button type="submit" class="btn-floating btn-small waves-effect waves-light blue lighten-1"><i
+                        class="material-icons">add</i></button></td>
+        </form>
+    </tr>
+
+</table>
+
+{% endblock %}
