@@ -2,34 +2,40 @@
 {% load static %}
 {% block title %}{{table.name}} {% endblock %}
 {% block content %}
+{% load materializecss %}
 {% load custom_tags %}
 
-{{table.name}}  <a href="{% url 'delete-table' table.pk %}">Delete</a>
+{{table.name}}  <a href="{% url 'delete-table' table.pk %}">Delete Table </a>
 
-<table style="margin-left: 3%;width: 70%; box-shadow: 5px,7px rgba(128, 128, 128, 0.561);" class=" responsive-table striped">
-    <tr>
-        <th>(action)</th>           
+
+<table style="margin-left: 3%;width:50%; box-shadow: 5px,7px rgba(128, 128, 128, 0.561);" class=" responsive-table striped">
+    <tr style=" position: sticky; top: 0; ">
+        <th></th>           
         
-        <th style="display: flex;justify-content: center;"> Ticker </th>
+        <th style=" width:10px%"> Ticker </th>
           
-        <th > Date </th>
+        <th style="width:10px" > Date </th>
         
         {% for column in table.infos.all %}
-        <th style="font-size: 12px; width: 10%;"> {{column.name}} </th>           
+        <a href="{% url 'remove-column' table.pk column.name %}">{{column.name}}</a> </a>
+        <th style="font-size: 12px;"> {{column.name}} </th>           
         {% endfor %}  
     </tr>
 
-    {% for row in table.row.all %}
+    
+    
     <tr>
-        <td><a href="{% url 'remove-row'}"></a><i class="far fa-trash-alt"></i></td>
-        <td style="display: flex;justify-content: center;">  {{row.stock}} </td>
+        {% for row in table.row.all %}
+        <td style="width:10px"><a href="{% url 'remove-row' table.pk row.date.id row.stock.id %}"><i class="far fa-trash-alt"></i></a></td>
+        <td style="width:10px">  {{row.stock}} </td>
 
-        <td>{{row.date.date}} </td>
+        <td style="width:10px">{{row.date.date}} </td>
             
         {% for column in table.infos.all %}
+       
             {% with field_data=row|this_better_work:column  %}
             {% if field_data.info == column %}
-            <td> {{field_data.amount}}</td>
+            <td style="font-size:13px"> {{field_data.amount}}</td>
             {% endif %}
             {% endwith %}
         {% endfor %}
@@ -37,16 +43,42 @@
     {% endfor %}
 
     <tr>
-        
+        <td></td>
         <form action="" method="POST">
             {% csrf_token %}
-            <td style="width :5%">{{form.ticker}} </td>
-            <td style="width :.1%">{{form.date}}</td>
-            <td><button type="submit" class="btn-floating btn-small waves-effect waves-light blue lighten-1"><i
-                        class="material-icons">add</i></button></td>
+            <td style="width :1%"> {{form.ticker}} </td>
+            <td style="width :.1%"> {{form.date}} </td>
+            <td><button type="submit" class="btn-floating btn-small waves-effect waves-light blue lighten-1"><i class="material-icons">add</i></button></td>
+                                                   
         </form>
     </tr>
 
 </table>
+{% for info in infos %}
+  <a href="{% url 'add-column' table.pk info.name %}"> add _{{info.name}}</a>
+{%endfor%}
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large red">
+      <i class="large material-icons">mode_edit</i>
+    </a>
+    <ul>
+      <li><a class="btn-floating green"><i class="material-icons">add</i></a></li>
+      <li><a class="btn-floating orange"><i class="material-icons">remove</i></a></li>
+      <li><a class="btn-floating red btn tooltipped" href="{% url 'delete-table' table.pk %}"data-position="bottom" data-tooltip="Delete table"><i class="material-icons">delete_outline</i></a></li>
+    </ul>
+  </div>
 
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+
+document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.fixed-action-btn');
+    var instances = M.FloatingActionButton.init(elems, {
+      direction: 'left',
+      hoverEnabled: false
+    });
+  });
+        
+</script>
 {% endblock %}

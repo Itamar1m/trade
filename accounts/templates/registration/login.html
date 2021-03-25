@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load materializecss %}
 
 {% block content %}
 <form method="POST">
     {% csrf_token %}
     <div class="login_form">
         <h5>Login</h5>
-        {{form}}
+        {{form|materializecss}}
         <button class="waves-effect waves-teal btn" type="submit">Login</button>
     </div>
 </form>

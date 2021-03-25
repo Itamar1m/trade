@@ -152,5 +152,5 @@ STATICFILES_DIRS = (
 
 CRISPY_TEMPLATE_PACK = 'materialize_css_forms'
 
-LOGIN_REDIRECT_URL = 'test'
+LOGIN_REDIRECT_URL = 'view-tables'
 LOGOUT_REDIRECT_URL='login'

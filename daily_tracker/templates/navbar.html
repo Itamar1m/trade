@@ -1,21 +1,31 @@
-<div class="navbar-fixed">
-<nav >
-    <div class="nav-wrapper green"  >
-      <a class="brand-logo" style="padding-left:7px ;"><i class="material-icons">cloud</i>Logo</a>
-      
-      <ul class="right hide-on-med-and-down">
 
-        {% if user.is_authenticated %}
-        <li><b>You are logged in as {{user.username}}</b></li>
-        {% endif %}
-        <li><a href="{% url 'test' %}">TEST</a></li>
-        <li><a href="{% url 'sign-up' %}">Sign up</a></li>
-        <li><a href="{% url 'login' %}">Login</a></li>
-        <li><a href="{% url 'logout' %}">Logout</a></li>
-        <li><a href="{% url 'view-all-tables' %}"><i class="material-icons">view_module</i></a></li>
-        <li><a href="{% url 'create-table' %}"><i class="material-icons">refresh</i></a></li>
-        <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
-      </ul>
-    </div>
-  </nav>
+<div class="navbar-fixed">
+<nav class=" navbar-fixed">
+  <div class="nav-wrapper">
+    <a href="#!" class="brand-logo">Logo</a>
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+
+      {% if user.is_authenticated %}
+      <li><b>You are logged in as {{user.username}}</b></li>
+      {% endif %}
+      <li><a href="{% url 'test' %}">TEST</a></li>
+      <li><a href="{% url 'sign-up' %}">Sign up</a></li>
+      <li><a href="{% url 'login' %}">Login</a></li>
+      <li><a href="{% url 'logout' %}">Logout</a></li>
+      <li><a href="{% url 'view-all-tables' %}"><i class="material-icons">view_module</i></a></li>
+      <li><a href="{% url 'create-table' %}"><i class="material-icons">refresh</i></a></li>
+      <li><a href="mobile.html"><i class="material-icons">more_vert</i></a></li>
+    </ul>
+  </div>
+</nav>
 </div>
+
+<ul class="sidenav" id="mobile-demo">
+  <li><a href="{% url 'test' %}">TEST</a></li>
+  <li><a href="{% url 'sign-up' %}">Sign up</a></li>
+  <li><a href="{% url 'login' %}">Login</a></li>
+  <li><a href="{% url 'logout' %}">Logout</a></li>
+  <li><a href="{% url 'view-all-tables' %}"><i class="material-icons">view_module</i></a></li>
+  <li><a href="{% url 'create-table' %}"><i class="material-icons">refresh</i></a></li>
+</ul>

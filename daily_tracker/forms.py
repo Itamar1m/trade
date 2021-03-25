@@ -7,7 +7,7 @@ class DateInput(forms.DateInput):
 
 
 class TableCreationForm(forms.Form):
-   table_name = forms.CharField(max_length=100,label=" ")
+   table_name = forms.CharField(max_length=100)
    low_of_day= forms.BooleanField(initial=True,required=False)
    high_of_day= forms.BooleanField(initial=True,required=False)
    volume=forms.BooleanField(initial=True,required=False)

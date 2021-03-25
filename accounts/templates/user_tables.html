@@ -5,12 +5,15 @@
 
 {% block content %}
 
-{% for table in user.tables.all %}
-    <div style="height:300px">
-        <a href="{% url 'view-table' table.pk %}"><i class="fas fa-database"style="height:300px">{{table.name}}</i></a>
+<div style="display:grid; grid-template-columns: repeat(5,1fr);grid-gap:3px ;grid-template-rows: repeat(5,1fr); width:70%; margin :auto;margin-top:10px">
+
+    {% for table in user.tables.all %}
+    <div style="display:flex;flex-direction:column;padding: 15px; " class="z-depth-1">
+        <p><a href="{% url 'view-table' table.pk %}">{{table.name}}</a></p>
         <a href="{% url 'delete-table' table.pk %}">Delete</a>
     </div>
-{% endfor %}
+    {% endfor %}
+
+</div>
 
 {% endblock %}
-
