@@ -28,4 +28,6 @@ def sign_up(request):
         return render(request, 'sign_up.html', context)
 
 
+def view_all_tables(request):
+    return render(request,'user_tables.html')
  

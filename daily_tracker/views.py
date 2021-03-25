@@ -71,6 +71,7 @@ def view_table(request,pk):
 
             stock = Stock.objects.get_or_create(symbol = symbols,full_name = 'Stock_name')[0]
             date =DateObject.objects.get_or_create(date=date_from)[0]
+
             low = InfoField.objects.get_or_create(name = 'Low of day')[0]
             volume = InfoField.objects.get_or_create(name ='Volume')[0]
             high = InfoField.objects.get_or_create(name ='High of day')[0]
@@ -94,7 +95,7 @@ def view_table(request,pk):
 
             table.stocks.add(stock)
 
-            table.infos.add(low,volume,high,opening_price,close)
+            # table.infos.add(low,volume,high,opening_price,close)
            
             table.field_datas.add(field_data_low,field_data_volume,field_data_high,field_data_close,field_data_open_price)
 
@@ -102,10 +103,19 @@ def view_table(request,pk):
             return redirect('view-table',table.pk)
 
 
+def remove_row(request,pk,date,stock):
+    table = UserCustomTable.objects.get(pk=pk)
+    stock = Stock.objects.get(symbol=symbol)
+    date = DateObject.objects.get(date=date)
+
+    pass
 
 
+def delete_table(request,pk):
+    table = UserCustomTable.objects.get(pk=pk)
+    table.delete()
 
-
+    return redirect('view-all-tables')
 
 
 
