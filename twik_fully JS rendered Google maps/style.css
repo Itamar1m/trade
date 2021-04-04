@@ -1,0 +1,158 @@
+body {
+    position: relative;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    background-color: rgba(161, 112, 112, 0.137);
+    margin-bottom: 6px;
+}
+
+h1 {
+    color: rgba(161, 112, 112, 0.568);
+    margin: 0;
+}
+
+#map {
+    border: 1px solid balck;
+    height: 480px;
+    width: 95%;
+    margin: 0 auto;
+    border-radius: 7px;
+    display: none;
+    animation: fadein 0.9s ease-in;
+
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#latLng-fields-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    display: none;
+    height: 60%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    animation: fadein 1.5s ease-in;
+   
+}
+
+#lat,
+#long {
+    border-radius: 3px;
+    border-color: lightgrey;
+    color: red;
+    height: 20px;
+    width: 85px;
+    font-size: 15px;
+    margin-right: 5px;
+    font-family: 'Kiwi Maru', serif;
+    text-align: center;
+
+}
+
+.text-fields-div {
+    border-radius: 4px;
+}
+
+button,
+.long-div,
+.lat-div {
+    width: 80px;
+    margin: 5px;
+}
+
+.buttons-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 40%;
+    height:100%
+}
+
+button {
+    background-color: rgba(161, 112, 112, 0.568);
+    border: none;
+    box-shadow: 5px, 5px;
+    border-radius: 3px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.5s ease;
+
+}
+
+button:hover {
+    transform: scale(1, 1.2);
+    opacity: .6;
+}
+
+#map-button {
+    font-size: 10px;
+    width: 60px;
+    border-radius: 30px;
+}
+
+.fadeIn {
+    opacity: 0;
+    transition: 2.5s opacity;
+    cursor: default;
+}
+
+.confirm-div {
+    width: 20%;
+    height: 100px;
+    background-color: rgba(142, 185, 151, 0.863);
+    position: absolute;
+    top: 65%;
+    right: 30%;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    font-family:'Kiwi Maru', serif; 
+    font-size: 80%;
+    color:rgb(47, 44, 44);
+    
+}
+
+.yes-buttbn,.no-button,.ok-button{
+    /* font-family: 'Kiwi Maru', serif; */
+    background-color:rgb(112, 49, 41)
+}
+
+@media only screen and (max-width: 900px) {
+    .confirm-div {
+     font-size: 80%;
+     height:130px;
+     width:30%;
+     top:50%;
+     flex-direction: column;
+    }
+    .yes-button, .no-button, .ok-button{
+    width :50px;
+    height:20px
+    }
+
+    }
+    @media only screen and (max-width: 360px){
+        .confirm-div{
+            height:150px ;
+            width: 35%;
+            font-size:75%;
+            top:45%
+        }
+
+    }
