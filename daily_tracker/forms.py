@@ -8,11 +8,15 @@ class DateInput(forms.DateInput):
 
 class TableCreationForm(forms.Form):
    table_name = forms.CharField(max_length=100)
-   low_of_day= forms.BooleanField(initial=True,required=False)
-   high_of_day= forms.BooleanField(initial=True,required=False)
-   volume=forms.BooleanField(initial=True,required=False)
-   open_price=forms.BooleanField(initial=True,required=False)
-   closing_price= forms.BooleanField(initial=True,required=False)
+   low_of_day = forms.BooleanField(initial=True,required=False)
+   high_of_day = forms.BooleanField(initial=True,required=False)
+   volume = forms.BooleanField(initial=True,required=False)
+   open_price = forms.BooleanField(initial=True,required=False)
+   closing_price = forms.BooleanField(initial=True,required=False)
+   exchange =forms.BooleanField(initial=True,required=False)
+   daily_range = forms.BooleanField(initial=True,required=False)
+   daily_range_percent =forms.BooleanField(initial=True,required=False)
+   
 
 class RowAdditionForm(forms.Form):
    ticker=forms.CharField(max_length=5)

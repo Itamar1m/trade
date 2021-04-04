@@ -20,8 +20,8 @@ class FieldData(models.Model):
     table=models.ForeignKey('UserCustomTable',on_delete=models.CASCADE,null=True,related_name='field_datas')
     date = models.ForeignKey('DateObject',on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f'{self.amount} -- {self.stock.symbol} -- {self.date}' 
+    # def __str__(self):
+    #     return f'{self.amount} -- {self.stock.symbol} -- {self.date}' 
 
 
 class Stock(models.Model):
@@ -34,6 +34,9 @@ class Stock(models.Model):
 
 class DateObject(models.Model):
     date= models.DateField(default=now,editable=True)
+
+    def __str__(self):
+        return self.date
 
 
 class UserCustomTableStocks(models.Model):

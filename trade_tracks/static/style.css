@@ -21,3 +21,37 @@
     margin-top:5px;
 
 }
+
+.table_sticky th{
+    position: sticky !important;
+    top:0;
+    background-color:rgba(128, 128, 128, 0.609);
+    height:5px;
+
+}
+.test{
+    max-height:550px;
+    overflow: auto;
+    
+}
+.table_sticky2 {
+    position: sticky !important;
+    bottom:0;
+  
+}
+.border td {
+    border:solid balck 1px;
+}
+
+.my_table th,td{
+ padding:0px;
+ margin: 0PX;
+ border-radius: 0px;
+ text-align:center;
+ 
+
+}
+
+.del_row{
+    height:1px
+}

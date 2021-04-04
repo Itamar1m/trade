@@ -3,6 +3,8 @@ from.models import *
 import requests
 import json
 from .forms import *
+from daily_tracker.api_interactions import *
+
 
 
 def test(request):
@@ -26,9 +28,13 @@ def create_table(request):
             low = form.cleaned_data["low_of_day"]
             open_price = form.cleaned_data["open_price"]
             closing_price = form.cleaned_data['closing_price']
+            exchange = form.cleaned_data['exchange']
+            daily_range = form.cleaned_data['daily_range']
+            daily_percent = form.cleaned_data['daily_range_percent']
+            
 
-            option_list=[volume,high,low,open_price,closing_price]
-            string_list=['Volume','High of day','Low of day','Open price','Closing price']
+            option_list=[volume,high,low,open_price,closing_price,exchange,daily_range,daily_percent]
+            string_list=['Volume','High of day','Low of day','Open price','Closing price','Exchange','Range',"Range %"]
 
             table = UserCustomTable.objects.create(name=name,profile=request.user)
             for i in range(len(option_list)):
@@ -37,7 +43,6 @@ def create_table(request):
                     field = InfoField.objects.get_or_create(name=column)[0]
                     table.infos.add(field)
 
-            # table.infos.add(*form.cleaned_data['columns'])
             return redirect('view-table',table.pk)
 
         else:
@@ -67,17 +72,22 @@ def view_table(request,pk):
 
             api_result = requests.get(f'http://api.marketstack.com/v1/eod?access_key={api_key}&symbols={symbols}&date_from={date_from}&date_to={date_to}')
             data = api_result.json()
-            print (data)
+            name_data=stock_name(ticker,api_key)
+            
+            
             try:
-                stock = Stock.objects.get_or_create(symbol = symbols,full_name = 'Stock_name')[0]
+                stock = Stock.objects.get_or_create(symbol = symbols,full_name = name_data['name'])[0]
                 date = DateObject.objects.get_or_create(date=date_from)[0]
 
+                exchange = InfoField.objects.get_or_create(name = 'Exchange')[0]
                 low = InfoField.objects.get_or_create(name = 'Low of day')[0]
                 volume = InfoField.objects.get_or_create(name ='Volume')[0]
                 high = InfoField.objects.get_or_create(name ='High of day')[0]
                 opening_price = InfoField.objects.get_or_create(name ='Open price')[0]
                 close = InfoField.objects.get_or_create(name ='Closing price')[0]
                 
+                
+                field_data_exchange=FieldData.objects.get_or_create(info =exchange,amount =name_data['stock_exchange']['acronym'],date=date,stock=stock)[0]
                 field_data_low = FieldData.objects.get_or_create(info = low, amount = data['data'][0]['low'],date=date,stock=stock)[0]
                 field_data_volume = FieldData.objects.get_or_create(info = volume, amount = data['data'][0]['volume'],date=date,stock=stock)[0]
                 field_data_high = FieldData.objects.get_or_create(info = high, amount = data['data'][0]['high'],date=date,stock=stock)[0]
@@ -89,21 +99,24 @@ def view_table(request,pk):
                 high.field_datas.add(field_data_high)
                 opening_price.field_datas.add(field_data_open_price)
                 close.field_datas.add(field_data_close)
+                exchange.field_datas.add(field_data_exchange)
 
                 table = UserCustomTable.objects.get(pk=pk)
                 user_custom_table_stocks=UserCustomTableStocks.objects.get_or_create(date=date,stock=stock,user_custom_table=table)
 
                 table.stocks.add(stock)
                 
-                table.field_datas.add(field_data_low,field_data_volume,field_data_high,field_data_close,field_data_open_price)
-                for i in table.infos.all():
-                    print(i.name)
-                
+                table.field_datas.add(field_data_low,field_data_volume,field_data_high,field_data_close,field_data_open_price,field_data_exchange)
+                daily_range,range_perc = high_low_dif(field_data_high.amount,field_data_low.amount,date,stock)
+                table.field_datas.add(daily_range,range_perc,)
+          
+
                 return redirect('view-table',table.pk)
             except:
                 error='Ufortunately there is no data available for the chosen day'
                 table=UserCustomTableStocks.objects.get(pk=pk)
                 return redirect('view-table',table.pk)    
+
 
 def remove_row(request,pk,date,symbol):
     print(date)

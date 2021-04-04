@@ -5,20 +5,18 @@
 {% load materializecss %}
 {% load custom_tags %}
 
-{{table.name}}  <a href="{% url 'delete-table' table.pk %}">Delete Table </a>
+<span>{{table.name}}</span>
 
-
-<table style="margin-left: 3%;width:50%; box-shadow: 5px,7px rgba(128, 128, 128, 0.561);" class=" responsive-table striped">
-    <tr style=" position: sticky; top: 0; ">
-        <th></th>           
-        
-        <th style=" width:10px%"> Ticker </th>
-          
-        <th style="width:10px" > Date </th>
+<div class="test">
+<table style=" box-shadow: 5px,7px rgba(128, 128, 128, 0.561);" class=" responsive-table striped table_sticky my_table">
+    <tr >
+        <th  ></th>           
+        <th> Ticker </th>
+        <th  > Date </th>
         
         {% for column in table.infos.all %}
         <a href="{% url 'remove-column' table.pk column.name %}">{{column.name}}</a> </a>
-        <th style="font-size: 12px;"> {{column.name}} </th>           
+        <th style="font-size: 11px;" > {{column.name}} </th>           
         {% endfor %}  
     </tr>
 
@@ -26,10 +24,10 @@
     
     <tr>
         {% for row in table.row.all %}
-        <td style="width:10px"><a href="{% url 'remove-row' table.pk row.date.id row.stock.id %}"><i class="far fa-trash-alt"></i></a></td>
-        <td style="width:10px">  {{row.stock}} </td>
+        <td ><a href="{% url 'remove-row' table.pk row.date.id row.stock.id %}"><i class="far fa-trash-alt del_row"></i></a></td>
+        <td >  {{row.stock}}</td>
 
-        <td style="width:10px">{{row.date.date}} </td>
+        <td >{{row.date.date}} </td>
             
         {% for column in table.infos.all %}
        
@@ -46,14 +44,16 @@
         <td></td>
         <form action="" method="POST">
             {% csrf_token %}
-            <td style="width :1%"> {{form.ticker}} </td>
-            <td style="width :.1%"> {{form.date}} </td>
-            <td><button type="submit" class="btn-floating btn-small waves-effect waves-light blue lighten-1"><i class="material-icons">add</i></button></td>
+            <td style="width :1%" class ='table_sticky2'> {{form.ticker}} </td>
+            <td style="width :.1%" class ='table_sticky2'> {{form.date}} </td>
+            <td class="table_sticky2"><button type="submit" class="btn-floating btn-small waves-effect waves-light blue lighten-1"><i class="material-icons">add</i></button></td>
                                                    
         </form>
     </tr>
 
 </table>
+</div>
+
 {% for info in infos %}
   <a href="{% url 'add-column' table.pk info.name %}"> add _{{info.name}}</a>
 {%endfor%}
