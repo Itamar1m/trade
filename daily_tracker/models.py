@@ -28,15 +28,15 @@ class Stock(models.Model):
     symbol = models.CharField(max_length=50)
     full_name = models.CharField(max_length=50,null=True,blank=True)
       
-    def __str__(self):
-        return f'{self.symbol.upper()}'
+    # def __str__(self):
+    #     return f'{self.symbol.upper()}'
 
 
 class DateObject(models.Model):
-    date= models.DateField(default=now,editable=True)
+    date= models.DateField(editable=True)
 
-    def __str__(self):
-        return self.date
+    # def __str__(self):
+    #     return self.date
 
 
 class UserCustomTableStocks(models.Model):
@@ -44,6 +44,8 @@ class UserCustomTableStocks(models.Model):
     user_custom_table = models.ForeignKey('UserCustomTable',on_delete=models.CASCADE,related_name='row')
     stock = models.ForeignKey(Stock,on_delete=models.CASCADE)
 
+    class Meta:
+        ordering = ('date','stock__symbol')
     def stock_infos(self):
         return self.stock.field_datas.filter(date=self.date)
 

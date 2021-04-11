@@ -4,7 +4,19 @@
 {% load materializecss %}
 {%block title%} Signup{%endblock%}
 {%block content%}
-
+<div style=display:flex;justify-content:center;margin-top:8px>
+  <div style="display:flex;justify-content:center">
+      <div style ="display:flex;justify-self :flex-start;">
+          <h4 style="display:inline;font-family: 'Train One', cursive; " class="green-text text-darken-3" >T</h4>
+            
+          <div>
+               <h4 style="display:inline;font-family: 'Train One', cursive;" class="red-text text-darken-1">T</h4>
+          
+  
+          </div>
+      </div>
+  </div>
+  </div>
 <form action="" method="POST">
   {% csrf_token %}
 
@@ -14,9 +26,10 @@
 
   <div class="sign_up_form">
     {{sign_up_form|materializecss}}
-    <button class="waves-effect waves-teal btn ">Sign Up</button>
+    <button class="waves-effect waves-orange btn grey lighten-1 ">Sign Up</button>
+</form>
+<a href="{% url 'login' %}" class="btn grey ">Login</a>
   </div>
 
-</form>
 
 {%endblock%}

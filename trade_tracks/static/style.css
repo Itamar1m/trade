@@ -13,7 +13,7 @@
 .login_form{
     width:35%;
     margin: auto;
-    margin-top:7%;
+    margin-top:0;
 }
 
 .table_creation_from{
@@ -30,28 +30,36 @@
 
 }
 .test{
-    max-height:550px;
+    max-height:532px;
     overflow: auto;
-    
 }
 .table_sticky2 {
     position: sticky !important;
     bottom:0;
   
 }
-.border td {
-    border:solid balck 1px;
-}
 
-.my_table th,td{
+
+ th,td{
  padding:0px;
  margin: 0PX;
  border-radius: 0px;
- text-align:center;
- 
+ text-align: center;
+ overflow: auto;   
+ border:solid rgba(37, 37, 37, 0.137) 1px;
+ font-size: 12px;
 
+
+ 
 }
 
 .del_row{
     height:1px
+}
+img{
+    height:150px
+} 
+table{
+    overflow:auto;
+    width:100%;
 }

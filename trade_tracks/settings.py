@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'charts',
     'crispy_forms',
     'materializecssform',
+    'django_filters',
 ]
 
 
@@ -152,5 +153,5 @@ STATICFILES_DIRS = (
 
 CRISPY_TEMPLATE_PACK = 'materialize_css_forms'
 
-LOGIN_REDIRECT_URL = 'view-tables'
+LOGIN_REDIRECT_URL = 'view-all-tables'
 LOGOUT_REDIRECT_URL='login'
