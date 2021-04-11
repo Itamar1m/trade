@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{table.name}} {% endblock %}
+{% block content %}
+{% load materializecss %}
+{% load custom_tags %}
+{% if messages %}
+{% for message in messages %}
+<DIV style="color:red">{{ message }}</DIV>
+{% endfor %}
+{% endif %}
+
+<div class="fixed-action-btn  small"style= "margin-right :50px ;z-index:5">
+<a href="{% url 'export-csv' table.pk %}" class="btn">csv</a>
+</div>
+<div style="display:flex;position:relative;top:5px;margin-left:10px;">
+  <form action="" style="display:flex;width:25%">
+    {{filter.form}}
+    <button class="btn grey darken-1 "><i class="material-icons">filter_alt</i></button>
+  </form>
+<h5 style="margin-left: 150px;" class="blue-text">{{table.name}}</h5>
+</div>
+<div class="test">
+
+  <table style=" box-shadow: 5px,7px rgba(128, 128, 128, 0.561); height:90%;width:120%"
+    class="striped table_sticky my_table">
+    <tr>
+      <th></th>
+      <!-- <th>Company name</th> -->
+      <th> Ticker </th>
+      <th> Date </th>
+
+      {% for column in table.infos.all %}
+      <th style="font-size: 11px;"> {{column.name}} </th>
+      {% endfor %}
+    </tr>
+
+    <tr>
+      {% for row in filter.qs %}
+      <td><a href="{% url 'remove-row' table.pk row.date.id row.stock.id %}"><i
+            class="far fa-trash-alt del_row"></i></a></td>
+            <!-- <td>{{row.stock.full_name}}</td> -->
+      <td> <a class="modal-trigger tooltipped" href='#chart_time' data-tooltip="View Chart">{{row.stock.symbol.upper}}</a><div class="modal " id ='chart_time' style="width: 150px;height: 200px;">
+        <form action="{% url 'daily-chart' row.stock.symbol row.date.date table.pk %}" width="30%" class=" modal-content">{{choice_form|materializecss}}
+          <button class= 'btn green'>Display</button>
+        </form>
+        </div></td>
+      
+      <td>{{row.date.date}} </td>
+
+      {% for column in table.infos.all %}
+      {% with field_data=row|this_better_work:column  %}
+      {% if field_data.info == column %}
+      <td style="font-size:13px"> {{field_data.amount}}</td>
+      {% endif %}
+      {% endwith %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+
+    <tr>
+      <td style="border:none;"></td>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <td style="width :5%; border-radius:7px;border:none; " class="table_sticky2"> {{form.ticker}} </td>
+        <td style="width :.1%;border-radius:7px; border:none;" class="table_sticky2"> {{form.date}} </td>
+        <td class="table_sticky2" style="border:none;"><button type="submit"
+            class="btn-floating btn-small waves-effect waves-light blue darken-1"><i
+              class="material-icons">add</i></button></td>
+
+      </form>
+    </tr>
+    
+  </table>
+ 
+  <div class="fixed-action-btn " style="top:79px;right: 100px;">
+    <a class='dropdown-trigger tooltipped btn-small waves-effect waves-light orange' href='#' data-target='dropdown1' data-tooltip="Remove Column"><i
+        class="material-icons">remove</i></a>
+    <ul id='dropdown1' class='dropdown-content'>
+      {% for column in table.infos.all %}
+      <li><a href="{% url 'remove-column' table.pk column.name %}">{{column.name}}</a></li>
+      {% endfor %}
+    </ul>
+
+    <a class='dropdown-trigger  btn-small tooltipped green darken-1' href='#' data-target='dropdown2' data-tooltip="Add column"><i
+        class="material-icons">add</i></a>
+    <ul id='dropdown2' class='dropdown-content'>
+      {% for info in infos %}
+      
+      <li><a href="{% url 'add-column' table.pk info.name %}"> {{info.name}}</a></li>
+     
+      {%endfor%}
+    </ul>
+  </div>
+
+  <div class='fixed-action-btn' >
+    <a class=" red btn btn-small tooltipped modal-trigger" href="#modal2" data-tooltip="Delete table"data-position="left"><i
+        class="material-icons">delete_outline</i></a>
+  </div>
+  <div id="modal2" class="modal grey darken-1 " style="border-radius: 30px;color: black;">
+    <div class="modal-content " style="text-align: center;">
+      <h5 class="red-text text-lighten-5">Are you sure you want to delete table "{{table.name}}" ?</h5>
+      
+    </div>
+    <div class="modal-footer grey darken-1">
+      <a href="#!" class="modal-close btn-small green darken-1">NO</a>
+      <a href="{% url 'delete-table' table.pk %}" class="modal-close waves-effect waves-green btn-flat">DELETE</a>
+     
+    </div>
+   
+{% if graph_div %}
+{{graph_div}}
+{% endif %}
+    {% endblock %}
+    {% block js %}
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function () {
+        var elems = document.querySelectorAll('.fixed-action-btn');
+        var instances = M.FloatingActionButton.init(elems, {
+          direction: 'left',
+          hoverEnabled: false
+        });
+      });
+    </script>
+    <script>
+      $(document).ready(function () {
+        $('.modal').modal();
+        $('.dropdown-trigger').dropdown();
+      })
+    </script>
+       <script>
+        $(document).ready(function(){
+          $('select').formSelect();
+        });
+      </script>
+    {% endblock %}

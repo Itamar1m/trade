@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% include 'navbar.html'%}
+{% block title %}{{user.username}}'s Tables {% endblock %}
+{% load materializecss %}
+{% block content %}
+
+<h4 style="text-align: center">All Tables</h4>
+<a href="modal1">
+  <div class=" modal-trigger"
+    style="display:grid; grid-template-columns: repeat(5,1fr);grid-gap:10px ;grid-template-rows: repeat(5,1fr); width:70%; margin :auto;margin-top:10px">
+    <div style="display:flex;flex-direction :column; align-items:center " href="#modal1"
+      class="tooltipped modal-trigger" data-tooltip="Create Table">
+      <img src="{% static 'images/add_table.jpg' %}" alt="">
+    </div>
+</a>
+{% for table in user.tables.all %}
+<div style="display:flex;flex-direction :column; align-items:center ">
+  <div class="blue-text text-darken-4">{{table.name}}</div>
+  <a href="{% url 'view-table' table.pk %}"><img src="{% static 'images/table_logo.png' %}" alt=""></a>
+</div>
+{% endfor %}
+
+
+</div>
+
+<div id="modal1" class=" modal" style="border-radius: 10px;">
+  <h5 style="text-align:center; margin:0;padding:3px " class="grey-text text-lighten-1 grey lighten-3 ">Please select
+    the columns you want displayed in your table.</h5>
+  <form action="{% url 'create-table' %}" method="POST">
+    {% csrf_token %}
+    <div class="modal-content grey lighten-3"
+      style="display:flex; flex-wrap:wrap;justify-content:space-evenly; height:300px;overflow: auto;">
+      {{table_creation_form|materializecss}}
+    </div>
+    <div class="modal-footer grey darken-1">
+      <button class=btn>Submit</button>
+  </form>
+
+</div>
+{% endblock %}
+{% block js %}
+<script>
+  $(document).ready(function () {
+    $('.modal').modal();
+    $('.dropdown-trigger').dropdown();
+  })
+</script>
+
+{% endblock %}

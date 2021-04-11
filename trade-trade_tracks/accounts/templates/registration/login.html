@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load materializecss %}
+
+{% block content %}
+<div style=display:flex;justify-content:center;margin-top:12px>
+<div style="display:flex;justify-content:center">
+    <div style ="display:flex;justify-self :flex-start;">
+        <h2 style="display:inline;font-family: 'Train One', cursive; " class="green-text text-darken-3" >T</h2>
+        
+          
+        <div>
+             <h2 style="display:inline;font-family: 'Train One', cursive;" class="red-text text-darken-1">T</h2>
+        
+
+        </div>
+    </div>
+</div>
+</div>
+    <div class="login_form">
+        <form method="POST">
+            {% csrf_token %}
+            <h5>Login</h5>
+            {{form|materializecss}}
+            <button class="waves-effect waves-orange btn grey lighten-1" type="submit">Login</button>
+        </form>
+        <a class="waves-effect waves-orange btn grey" style="margin-top:5px" href="{% url 'sign-up'%}">Sign up</a>
+    </div>
+
+
+    {% endblock %}

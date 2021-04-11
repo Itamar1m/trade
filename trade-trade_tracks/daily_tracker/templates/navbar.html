@@ -1,0 +1,35 @@
+
+<div class="navbar-fixed">
+<nav >
+  <div class="nav-wrapper grey darken-3 " style="padding-left: 20px;padding-right:40px;">
+    <div style="display:inline; margin-right: 40px ;"><h3 style="display:inline;font-family: 'Train One', cursive; " class="red-text text-darken-3">T</h3><span class="red-text text-lighten-4">rade</span> -- <h3 style="display:inline;font-family: 'Train One', cursive;  " class = " green-text text-darken-1">T</h3><span class="green-text text-lighten-4">racks</span></div>
+    {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">Logout</a>
+      {% endif %}
+     
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      {% if user.is_authenticated %}
+      <li style="margin-right: 30px;"><b>You are logged in as {{user.username}}</b></li>
+      {% else %}
+      <li><a href="{% url 'sign-up' %}">Sign up</a></li>
+      <li><a href="{% url 'login' %}">Login</a></li>
+      {% endif %} 
+     
+      <li ><a href ="{% url 'chart' %}"i class="material-icons" style="font-size:60px">show_chart</i></a></li>
+      <li><a href="{% url 'view-all-tables' %}"><i class="material-icons" style="font-size:60px">view_module</i></a></li>
+      <li><a href="{% url 'create-table' %}"><i class="material-icons"style="font-size:50px">create_new_folder</i></a></li>
+    </ul>
+  </div>
+  
+</nav>
+</div>
+
+<ul class="sidenav" id="mobile-demo">
+  <li><a href="{% url 'test' %}">TEST</a></li>
+  <li><a href="{% url 'sign-up' %}">Sign up</a></li>
+  <li><a href="{% url 'login' %}">Login</a></li>
+  <li><a href="{% url 'logout' %}">Logout</a></li>
+  <li ><a class="btn tooltipped" href="{% url 'view-all-tables' %}"  data-tooltip="Create new table"><i class="material-icons">view_module</i></a></li>
+  <li><a href="{% url 'create-table' %}"><i class="material-icons" >refresh</i></a></li>
+</ul>

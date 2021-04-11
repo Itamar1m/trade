@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=New+Tegomin&family=Train+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+    <title>{% block title %}Document{% endblock %}</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    {% block content %}
+    {% endblock %}
+
+        <!-- JQuery -->
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script> 
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <!-- Navbar function -->
+        <script>
+            $(document).ready(function(){
+                $('.sidenav').sidenav();
+            });
+
+        </script>
+        <script>$(document).ready(function(){
+            $('.tooltipped').tooltip();
+          }); </script>
+   {% block js %}
+   {% endblock %}
+</body>
+</html>

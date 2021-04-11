@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+{%include 'navbar.html'%}
+{% load materializecss %}
+{% block content %}
+<div style="width: 30%;margin:auto">
+   hello {{user.username}}
+   {% for table in user.table.all %}
+ 
+   <a href="{% url 'view-table' table.pk %}">{{table.name}}</a>
+   {% endfor %}
+   <table>
+      <tr>
+         <th>Ticker</th>
+         <th>Date</th>
+
+         {% for data in data%}
+         <th>
+            {{data.name}}
+         </th>
+         {%endfor%}
+
+      </tr>
+      <tr >
+         <td style="border: 1px solid black;">
+            {{data.0.stock.symbol.upper}}
+         </td>
+         <td style="border: 1px solid black;">
+            {{data.0.datetime}}
+         </td >
+
+         {% for data in data%}
+         <td style="border: 1px solid black;">
+            {{data.amount}}
+         </td>
+         {% endfor %}
+
+      </tr>
+      {{chart}}
+   </table>
+   {{filter.form}}
+</div>
+{{response}}
+
+{% endblock %}
